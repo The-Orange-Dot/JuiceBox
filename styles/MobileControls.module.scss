@@ -1,0 +1,34 @@
+@import "mixins";
+
+.chat_container {
+  @include mobile {
+    height: 80vh;
+    width: 100%;
+  }
+}
+
+.controls__buttons_container {
+  @include monitor {
+  }
+
+  @include mobile {
+    @include center-xy($align-items: space-between);
+    width: 100%;
+    min-height: 50vh;
+  }
+}
+
+.controls__buttons {
+  @include mobile {
+    margin: 10px 0;
+  }
+}
+
+.controls__buttons__content {
+  @include mobile {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+  }
+}

@@ -1,0 +1,17 @@
+@import "../../styles/mixins";
+
+.navbar__container {
+  @include monitor {
+    @include dark-mode;
+    padding: 100px 0px 0px 30px;
+    width: 250px;
+    height: 100%;
+  }
+
+  @include mobile {
+    @include dark-mode;
+    padding: 100px 0px 0px 30px;
+    width: 100%;
+    height: 500px;
+  }
+}

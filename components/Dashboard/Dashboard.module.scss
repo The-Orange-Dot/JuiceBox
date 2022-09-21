@@ -1,0 +1,9 @@
+@import "../../styles/mixins";
+
+.controls {
+  @include center-xy;
+}
+
+.controls__container {
+  width: 100%;
+}

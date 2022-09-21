@@ -1,0 +1,57 @@
+//breakpoints
+
+$mobile-screen: 900px;
+$monitor-screen: 1500px;
+
+// media devices
+@mixin mobile {
+  @media screen and (max-width: #{$mobile-screen}) {
+    @content;
+  }
+}
+
+@mixin monitor {
+  @media screen and (min-width: #{$mobile-screen}) {
+    max-width: $monitor-screen;
+    @content;
+  }
+}
+
+@mixin full-monitor {
+  @media screen and (min-width: #{$mobile-screen}) {
+    @content;
+  }
+}
+
+@mixin center-xy(
+  $justify-content: center,
+  $flex-direction: column,
+  $align-items: center,
+  $width: 100%,
+  $height: 100%
+) {
+  width: $width;
+  height: $height;
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin center-x($justify-content: center, $align-items: center, $width: 100%) {
+  width: $width;
+  display: flex;
+  justify-content: $justify-content;
+}
+
+@mixin dark-mode($dark-theme: true) {
+  @if $dark-theme {
+    color: white;
+    background: rgb(48, 48, 48);
+    transition: 0.2s;
+  } @else {
+    color: black;
+    background: white;
+    transition: 0.2s;
+  }
+}

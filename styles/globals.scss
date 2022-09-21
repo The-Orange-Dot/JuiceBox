@@ -1,9 +1,14 @@
+@import "mixins";
+
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Quicksand&display=swap");
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  @include dark-mode;
 }
 
 a {
@@ -15,12 +20,10 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.dark-mode {
+  @include dark-mode;
+}
+
+.light-mode {
+  @include dark-mode($dark-theme: false);
 }
