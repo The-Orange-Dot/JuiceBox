@@ -1,38 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { Button, Box, Grid, Switch } from "@mui/material";
+import { closeMenu } from "../../redux/reducers/menuSlice";
 import { useDispatch } from "react-redux";
-import { chatModeHandler } from "../components/ChatFunctions/chatModes";
-import styles from "../styles/MobileControls.module.scss";
+import { Button, Box, Grid, Switch } from "@mui/material";
+import styles from "../../styles/MobileControls.module.scss";
+import { chatModeHandler } from "../../components/ChatFunctions/chatModes";
+import { useSession } from "next-auth/react";
 
-const MobileControls = () => {
-  const [message, setMessage] = useState("Announcement Test");
+const ChatModes = () => {
+  const { data: session } = useSession();
+
   const [followerMode, setFollowerMode] = useState(false);
   const [subMode, setSubMode] = useState(false);
   const [emoteMode, setEmoteMode] = useState(false);
   const [uniqueOnlyMode, setUniqueOnlyMode] = useState(false);
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    if (session && session.user) {
-      fetch("api/streamActions", {
-        method: "POST",
-        body: JSON.stringify({
-          username: session.user.name,
-          token: session.userToken,
-          command: "init",
-        }),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setFollowerMode(data.msg.follower_mode);
-          setSubMode(data.msg.subscriber_mode);
-          setEmoteMode(data.msg.emote_mode);
-          setUniqueOnlyMode(data.msg.unique_chat_mode);
-        });
-    }
-  }, [session]); //eslint-disable-line
+  const dispatch = useDispatch();
 
   const buttonsArray = [
     {
@@ -85,37 +66,30 @@ const MobileControls = () => {
     );
   });
 
-  const testHandler = () => {
-    if (session) {
+  useEffect(() => {
+    dispatch(closeMenu());
+
+    if (session && session.user) {
       fetch("api/streamActions", {
         method: "POST",
         body: JSON.stringify({
-          username: session?.user?.name,
-          token: session?.userToken,
-          command: "announcement",
-          message: message,
+          username: session.user.name,
+          token: session.userToken,
+          command: "init",
         }),
         headers: { "Content-Type": "application/json" },
-      });
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setFollowerMode(data.msg.follower_mode);
+          setSubMode(data.msg.subscriber_mode);
+          setEmoteMode(data.msg.emote_mode);
+          setUniqueOnlyMode(data.msg.unique_chat_mode);
+        });
     }
-  };
+  }, [session]); //eslint-disable-line
 
-  return (
-    <div>
-      <Box className={styles.controls__buttons_container}>
-        <Button
-          className={styles.controls__buttons}
-          onClick={() => {
-            testHandler();
-          }}
-        >
-          Test Button
-        </Button>
-
-        {chatModeButtons}
-      </Box>
-    </div>
-  );
+  return { chatModeButtons };
 };
 
-export default MobileControls;
+export default ChatModes;
