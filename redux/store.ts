@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import credentialsReducer from "./reducers/credentialsSlice";
 import storage from "redux-persist/lib/storage";
+import userInfoReducer from "./reducers/userInfoSlice";
 import {
   persistReducer,
   FLUSH,
@@ -10,19 +11,20 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import menuSlice from "./reducers/menuSlice";
+import menuReducer from "./reducers/menuSlice";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["credentials"],
+  whitelist: ["credentials", "user"],
   blacklist: ["menu"],
 };
 
 const rootReducer = combineReducers({
   credentials: credentialsReducer,
-  menu: menuSlice,
+  menu: menuReducer,
+  user: userInfoReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
